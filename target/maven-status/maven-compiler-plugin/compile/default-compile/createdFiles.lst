@@ -1,0 +1,15 @@
+core\SongInfo.class
+core\VkClient.class
+core\interfaces\linkToSongConverter\LinkConvertingException$LCEType.class
+core\InputParams.class
+core\interfaces\tokenReceiver\TokenReceiverException.class
+core\common\OfficialVkClient.class
+core\interfaces\tokenReceiver\TokenReceiverException$TEType.class
+core\interfaces\linkToSongConverter\LinkConvertingException.class
+core\Account.class
+core\common\CommonException.class
+core\common\CommonMapParameters.class
+core\interfaces\songFinder\SongFinder.class
+core\interfaces\songFinder\SongFinderException.class
+core\interfaces\tokenReceiver\TokenReceiver.class
+core\interfaces\linkToSongConverter\LinkToSongConverter.class
