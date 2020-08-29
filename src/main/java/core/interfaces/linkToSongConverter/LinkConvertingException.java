@@ -26,6 +26,7 @@ public class LinkConvertingException extends CommonException {
         BROKEN_LINK("Broken link"),
         REQUEST_ERR("Error when making request."),
         SONG_NOT_FOUND("Songs not found."),
+        WRONG_INPUT_DATA("Wrong input data"),
         ;
         String message;
 
