@@ -1,0 +1,11 @@
+**/SecretData.**
+SecretData**
+SecretData.**
+**/SecretData.class
+
+# Whitelist some files
+!.gitignore
+!README.md
+
+# Ignore all files ending with .log
+!**.log
