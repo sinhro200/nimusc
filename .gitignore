@@ -1,7 +1,6 @@
 **/SecretData.**
 SecretData**
 SecretData.**
-**/SecretData.class
 
 # Whitelist some files
 !.gitignore
