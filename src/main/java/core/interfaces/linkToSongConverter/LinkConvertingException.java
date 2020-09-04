@@ -3,20 +3,13 @@ package core.interfaces.linkToSongConverter;
 import core.common.CommonException;
 
 public class LinkConvertingException extends CommonException {
-    private LCEType type;
 
     public LinkConvertingException(LCEType type, String extra) {
-        super(extra);
-        this.type = type;
+        super(type.message,extra);
     }
 
     public LinkConvertingException(LCEType type) {
         this(type,null);
-    }
-
-    @Override
-    public String getMessage() {
-        return type.message + this.extra;
     }
 
     public enum LCEType {
@@ -25,7 +18,7 @@ public class LinkConvertingException extends CommonException {
         EMPTY_LINK("Link is empty."),
         BROKEN_LINK("Broken link"),
         REQUEST_ERR("Error when making request."),
-        SONG_NOT_FOUND("Songs not found."),
+        SONGS_NOT_FOUND("Songs not found."),
         WRONG_INPUT_DATA("Wrong input data"),
         ;
         String message;

@@ -3,29 +3,9 @@ package core.interfaces.tokenReceiver;
 import core.common.CommonException;
 
 public class TokenReceiverException extends CommonException {
-    TEType type;
 
     public TokenReceiverException(TEType type, String extra) {
-        super(extra);
-        this.type = type;
-    }
-
-    public TokenReceiverException(TEType type) {
-        this(type,"");
-    }
-
-    @Override
-    public String getMessage() {
-        return type.text + extra;
-    }
-
-    @Override
-    public String toString() {
-        return "TokenException{" +
-                "type=" + type +
-                "("+type.text+")"+
-                ", extra='" + extra + '\'' +
-                '}';
+        super(type.text,extra);
     }
 
     public enum TEType {

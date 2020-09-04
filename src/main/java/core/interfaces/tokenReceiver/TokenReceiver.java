@@ -1,13 +1,13 @@
 package core.interfaces.tokenReceiver;
 
-import core.InputParams;
+import core.request.HttpUrlParameters;
 
 import java.util.function.Consumer;
 
 public interface TokenReceiver {
 
     void receiveToken(
-            InputParams inputParams,
+            HttpUrlParameters userParams,
             Consumer<String> onAccessTokenReady,
             Consumer<TokenReceiverException> onError
     );

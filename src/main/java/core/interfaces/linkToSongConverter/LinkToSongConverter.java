@@ -1,6 +1,6 @@
 package core.interfaces.linkToSongConverter;
 
-import core.InputParams;
+import core.request.HttpUrlParameters;
 import core.SongInfo;
 
 import java.util.function.Consumer;
@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public interface LinkToSongConverter {
 
     void convert(
-            InputParams inputParams,
+            HttpUrlParameters userParams,
             Consumer<SongInfo> onSongReady,
             Consumer<LinkConvertingException> onError
     );

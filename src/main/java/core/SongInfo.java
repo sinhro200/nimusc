@@ -9,4 +9,5 @@ public class SongInfo {
     private String link;
     private String name;
     private String artist;
+    private int duration;
 }
