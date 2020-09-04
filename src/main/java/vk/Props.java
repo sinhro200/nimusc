@@ -17,15 +17,13 @@ public class Props extends Properties{
 
     private static String filename = "params.conf";
 
-    private static Props build() throws URISyntaxException, IOException {
+    private static Props build() throws IOException {
         Props p = new Props();
-        URL path = Props.class.getResource(filename);
+        InputStream path = p.getClass().getResourceAsStream(filename);
         if(path==null) {
             throw new FileNotFoundException("File not found");
         }
-        File f = new File(path.toURI());
-        FileInputStream fis = new FileInputStream(f);
-        p.load(fis);
+        p.load(path);
         return p;
     }
 
