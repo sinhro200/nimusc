@@ -1,4 +1,6 @@
-**/SecretData.java
+**/SecretData.**
+SecretData**
+SecretData.**
 
 # Whitelist some files
 !.gitignore
