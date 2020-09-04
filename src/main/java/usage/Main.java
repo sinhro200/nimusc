@@ -6,12 +6,12 @@ import core.common.CommonException;
 import core.interfaces.linkToSongConverter.LinkConvertingException;
 import core.interfaces.songFinder.SongFinderException;
 import core.interfaces.tokenReceiver.TokenReceiverException;
-import usage.threadSleeper.ThreadSleeper;
-import usage.threadSleeper.ThreadSleeperTimeoutException;
+import threadSleeper.ThreadSleeper;
+import threadSleeper.ThreadSleeperTimeoutException;
 import vk.HttpUrlParameters.LinkConvertingHUP;
 import vk.Props;
 import vk.Utils;
-import vk.VK_Service;
+import vk.nimusc_vk;
 import vk.VkService;
 import vk.HttpUrlParameters.SongFinderHUP;
 import vk.HttpUrlParameters.TokenReceiverHUP;
@@ -19,14 +19,14 @@ import vk.HttpUrlParameters.TokenReceiverHUP;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         //test();
 
-        VK_Service vkService = new VK_Service("+79065841259","1Qkamper");
+        nimusc_vk vkService = new nimusc_vk(SecretData.login, SecretData.password);
+
         String link = "https://vk.com/audio123622163_456240364_b71f8ebf09dc187277";
         try {
             String id = Utils.convertLinkToId(link);

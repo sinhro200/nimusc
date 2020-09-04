@@ -8,8 +8,8 @@ import core.common.CommonException;
 import core.interfaces.linkToSongConverter.LinkConvertingException;
 import core.interfaces.tokenReceiver.TokenReceiverException;
 import core.request.RequestEntity;
-import usage.threadSleeper.ThreadSleeper;
-import usage.threadSleeper.ThreadSleeperTimeoutException;
+import threadSleeper.ThreadSleeper;
+import threadSleeper.ThreadSleeperTimeoutException;
 import vk.HttpUrlParameters.LinkConvertingHUP;
 import vk.HttpUrlParameters.SongFinderHUP;
 import vk.HttpUrlParameters.TokenReceiverHUP;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import static vk.Utils.getClearUrl;
 import static vk.Utils.getMp3FromM3U8;
 
-public class VK_Service {
+public class nimusc_vk {
     private RequestEntity receiveTokenRequest = ReceiveTokenRequestBuilder.build();
     private RequestEntity linkConverterRequest = null;
     private RequestEntity songFinderRequest = null;
@@ -34,7 +34,7 @@ public class VK_Service {
     private Account account;
     private long maxTimeout = 10000;
 
-    public VK_Service(String login,String password) {
+    public nimusc_vk(String login, String password) {
         account = new Account();
         account.setLogin(login);
         account.setPassword(password);

@@ -29,14 +29,6 @@ public class Props extends Properties{
         return p;
     }
 
-    public String getLogin(){
-        return this.getProperty("login");
-    }
-
-    public String getPassword(){
-        return this.getProperty("password");
-    }
-
     public String getCurToken(){
         return this.getProperty("access_token");
     }
