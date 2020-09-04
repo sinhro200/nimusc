@@ -6,12 +6,11 @@
 
     <groupId>org.sinhro</groupId>
     <artifactId>nimusc</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <java.version>8</java.version>
         <github.global.server>github</github.global.server>
-<!--        <github.maven-plugin>0.9</github.maven-plugin>-->
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

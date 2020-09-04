@@ -2,6 +2,9 @@
 SecretData**
 SecretData.**
 
+**/mvn-repo/
+**/nimusc-*.jar
+
 # Whitelist some files
 !.gitignore
 !README.md
