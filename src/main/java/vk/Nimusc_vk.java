@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import static vk.Utils.getClearUrl;
 import static vk.Utils.getMp3FromM3U8;
 
-public class nimusc_vk {
+public class Nimusc_vk {
     private RequestEntity receiveTokenRequest = ReceiveTokenRequestBuilder.build();
     private RequestEntity linkConverterRequest = null;
     private RequestEntity songFinderRequest = null;
@@ -34,7 +34,7 @@ public class nimusc_vk {
     private Account account;
     private long maxTimeout = 10000;
 
-    public nimusc_vk(String login, String password) {
+    public Nimusc_vk(String login, String password) {
         account = new Account();
         account.setLogin(login);
         account.setPassword(password);

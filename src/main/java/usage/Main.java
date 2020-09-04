@@ -1,23 +1,15 @@
 package usage;
 
-import core.Account;
 import core.SongInfo;
 import core.common.CommonException;
 import core.interfaces.linkToSongConverter.LinkConvertingException;
-import core.interfaces.songFinder.SongFinderException;
-import core.interfaces.tokenReceiver.TokenReceiverException;
-import threadSleeper.ThreadSleeper;
 import threadSleeper.ThreadSleeperTimeoutException;
 import vk.HttpUrlParameters.LinkConvertingHUP;
-import vk.Props;
 import vk.Utils;
-import vk.nimusc_vk;
-import vk.VkService;
+import vk.Nimusc_vk;
 import vk.HttpUrlParameters.SongFinderHUP;
-import vk.HttpUrlParameters.TokenReceiverHUP;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         //test();
 
-        nimusc_vk vkService = new nimusc_vk(SecretData.login, SecretData.password);
+        Nimusc_vk vkService = new Nimusc_vk(SecretData.login, SecretData.password);
 
         String link = "https://vk.com/audio123622163_456240364_b71f8ebf09dc187277";
         try {
@@ -58,62 +50,6 @@ public class Main {
             e.printStackTrace();
         }
 
-
-    }
-
-    private static void test(){
-
-
-        Account account = new Account();
-        account.setLogin("+79065841259");
-        account.setPassword("1Qkamper");
-
-        VkService vkService = new VkService(account);
-
-        try {
-            String token = ThreadSleeper.<String, TokenReceiverException>getData(
-                    (stringAtomicReference, tokenReceiverExceptionAtomicReference) -> {
-                        vkService.receiveToken(
-                                TokenReceiverHUP.builder()
-                                    .login(account.getLogin())
-                                    .password(account.getPassword())
-                                .build(),
-                                stringAtomicReference::set,
-                                tokenReceiverExceptionAtomicReference::set
-                        );
-                    },10000);
-
-            account.setAccessToken(token);
-        } catch (TokenReceiverException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ThreadSleeperTimeoutException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            List<SongInfo> songs = ThreadSleeper.<List<SongInfo>, SongFinderException>getData(
-                    (listAtomicReference, songFinderExceptionAtomicReference) -> {
-                        vkService.search(
-                                SongFinderHUP.builder()
-                                        .query("Дети RAVE - supra")
-                                        .build(),
-                                listAtomicReference::set,
-                                songFinderExceptionAtomicReference::set
-                        );
-                    },
-                    10000
-            );
-
-            System.out.println(songs.toArray().toString());
-        } catch (SongFinderException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ThreadSleeperTimeoutException e) {
-            e.printStackTrace();
-        }
 
     }
 }
