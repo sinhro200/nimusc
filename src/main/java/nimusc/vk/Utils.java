@@ -1,6 +1,6 @@
-package vk;
+package nimusc.vk;
 
-import core.interfaces.linkToSongConverter.LinkConvertingException;
+import nimusc.core.interfaces.linkToSongConverter.LinkConvertingException;
 
 import java.util.Random;
 import java.util.regex.Matcher;
