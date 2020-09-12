@@ -6,7 +6,6 @@ SecretData.**
 **/nimusc-*.jar
 
 # Whitelist some files
-!.gitignore
 !README.md
 
 # Ignore all files ending with .log
@@ -14,3 +13,6 @@ SecretData.**
 
 *.class
 target/
+
+out/
+.idea/
