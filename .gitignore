@@ -10,4 +10,7 @@ SecretData.**
 !README.md
 
 # Ignore all files ending with .log
-!**.log
+**.log
+
+*.class
+target/
