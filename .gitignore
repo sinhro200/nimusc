@@ -2,7 +2,7 @@
 SecretData**
 SecretData.**
 
-**/mvn-repo/
+**/mvn-repo/**
 **/nimusc-*.jar
 
 # Whitelist some files
