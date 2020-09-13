@@ -1,6 +1,7 @@
 package nimusc.vk.HttpUrlParameters;
 
-import nimusc.core.common.CommonException;
+import nimusc.core.common.exception.CommonNE;
+import nimusc.core.common.exception.NimuscException;
 import nimusc.core.request.HttpUrlParameters;
 import lombok.Builder;
 import okhttp3.HttpUrl;
@@ -14,7 +15,7 @@ import okhttp3.HttpUrl;
  * auto_complete (optional)	-   1 — fix errors in query (Огыешт => Justin), 0 or not specified — don't fix
  */
 @Builder
-public class SongFinderHUP implements HttpUrlParameters {
+public class AudioSearchHUP implements HttpUrlParameters {
     private String query;
     private Integer count;
     private Integer offset;
@@ -22,9 +23,9 @@ public class SongFinderHUP implements HttpUrlParameters {
     private Boolean autoComplete;
 
     @Override
-    public void applyToHttpBuilder(HttpUrl.Builder urlBuilder) throws CommonException {
+    public void applyToHttpBuilder(HttpUrl.Builder urlBuilder) throws NimuscException {
         if (query == null || query.isEmpty())
-            throw new CommonException(CommonException.CEType.WRONG_HTTP_URL_PARAMETERS,"Query is null or empty");
+            throw new NimuscException(CommonNE.WRONG_HTTP_URL_PARAMETERS,"Query is null or empty");
 //        try {
 //            urlBuilder.addQueryParameter("q",  URLEncoder.encode(query, StandardCharsets.UTF_8.toString()));
             urlBuilder.addQueryParameter("q",  query);
