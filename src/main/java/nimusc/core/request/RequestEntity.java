@@ -1,6 +1,7 @@
 package nimusc.core.request;
 
-import nimusc.core.common.CommonException;
+import nimusc.core.common.exception.CommonNE;
+import nimusc.core.common.exception.NimuscException;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.java.Log;
@@ -12,7 +13,7 @@ import java.util.function.Consumer;
 
 @Builder
 @Log
-public class RequestEntity {
+public class RequestEntity implements RequestSender{
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -21,16 +22,16 @@ public class RequestEntity {
 
     private HttpUrlParameters commonUrlParams;
 
-    private RequestHeaderParams commonRequestHeaderParams;
+    private RequestHeaderParameters commonRequestHeaderParams;
 
-
-    public void send(HttpUrlParameters userParams, Consumer<String> onResponse, Consumer<CommonException> onError){
+    @Override
+    public void send(HttpUrlParameters userParams, Consumer<String> onResponse, Consumer<NimuscException> onError){
         HttpUrl.Builder urlBuilder
                 = HttpUrl.parse(requestUrl).newBuilder();
         if (commonUrlParams !=null)
             try{
                 commonUrlParams.applyToHttpBuilder(urlBuilder);
-            }catch (CommonException ce){
+            }catch (NimuscException ce){
                 onError.accept(ce);
                 return;
             }
@@ -38,7 +39,7 @@ public class RequestEntity {
         if (userParams!=null)
             try{
                 userParams.applyToHttpBuilder(urlBuilder);
-            }catch (CommonException ce){
+            }catch (NimuscException ce){
                 onError.accept(ce);
                 return;
             }
@@ -53,7 +54,7 @@ public class RequestEntity {
         if (commonRequestHeaderParams != null) {
             try {
                 commonRequestHeaderParams.applyToRequestBuilder(requestBuilder);
-            } catch (CommonException e) {
+            } catch (NimuscException e) {
                 onError.accept(e);
                 return;
             }
@@ -67,7 +68,7 @@ public class RequestEntity {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         log.info("Error while sending request : " + e.getMessage() + ". "+e.getStackTrace());
-                        onError.accept(new CommonException(CommonException.CEType.ERR_WHILE_SENDING_REQUEST));
+                        onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST));
                         return;
                     }
 
@@ -77,7 +78,7 @@ public class RequestEntity {
                             ResponseBody responseBody = response.body();
                             if (responseBody == null) {
                                 log.info("Error while sending request. Response body is null");
-                                onError.accept(new CommonException(CommonException.CEType.ERR_WHILE_SENDING_REQUEST, "Response body is null"));
+                                onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null"));
                                 return;
                             }
                             String resp = responseBody.string();
@@ -86,7 +87,7 @@ public class RequestEntity {
 
                         }else{
                             log.info("Error while sending request. ");
-                            onError.accept(new CommonException(CommonException.CEType.ERR_WHILE_SENDING_REQUEST));
+                            onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST));
                             return;
                         }
 
