@@ -35,6 +35,12 @@ public class CommonMapParameters implements RequestHeaderParameters, HttpUrlPara
     }
 
     @Override
+    public HttpUrlParameters addParameter(String key, String value) {
+        map.put(key,value);
+        return this;
+    }
+
+    @Override
     public void applyToRequestBuilder(Request.Builder requestBuilder) throws NimuscException {
         map.forEach(
                 (k,v)->{
