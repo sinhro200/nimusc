@@ -1,27 +1,26 @@
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\usage\SecretData.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\tokenReceiver\TokenReceiverException.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\request\RequestHeaderParams.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\VkClient.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\Account.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\requests\LinkConverterRequestBuilder.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\requests\SongFinderRequestBuilder.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\tokenReceiver\TokenReceiver.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\common\CommonMapParameters.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\songFinder\SongFinderException.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\HttpUrlParameters\SongFinderHUP.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\common\OfficialVkClient.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\common\CommonException.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\songFinder\SongFinder.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\Props.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\Nimusc_vk.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\HttpUrlParameters\LinkConvertingHUP.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\linkToSongConverter\LinkToSongConverter.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\Utils.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\interfaces\linkToSongConverter\LinkConvertingException.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\ParameterValues.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\usage\Main.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\request\HttpUrlParameters.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\request\RequestEntity.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\requests\ReceiveTokenRequestBuilder.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\core\SongInfo.java
-D:\Рабочий стол\Денис\Java prog\nimusc\src\main\java\vk\HttpUrlParameters\TokenReceiverHUP.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\common\CommonException.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\Utils.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\request\HttpUrlParameters.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\Props.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\common\OfficialVkClient.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\linkToSongConverter\LinkToSongConverter.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\usage\Main.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\requests\SongFinderRequestBuilder.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\requests\ReceiveTokenRequestBuilder.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\Nimusc_vk.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\common\CommonMapParameters.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\Account.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\HttpUrlParameters\TokenReceiverHUP.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\tokenReceiver\TokenReceiverException.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\request\RequestHeaderParams.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\request\RequestEntity.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\songFinder\SongFinderException.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\tokenReceiver\TokenReceiver.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\linkToSongConverter\LinkConvertingException.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\ParameterValues.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\HttpUrlParameters\SongFinderHUP.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\SongInfo.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\HttpUrlParameters\LinkConvertingHUP.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\VkClient.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\core\interfaces\songFinder\SongFinder.java
+C:\Users\sinhr\Documents\programming\02_learning_experimental\nimusc\src\main\java\nimusc\vk\requests\LinkConverterRequestBuilder.java
