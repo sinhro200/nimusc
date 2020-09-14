@@ -7,16 +7,15 @@ import nimusc.core.interfaces.linkToSongConverter.LinkConvertingNE;
 import nimusc.vk.HttpUrlParameters.AudioGetHUP;
 import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
 import nimusc.vk.VkUtils;
-import nimusc.vk.core.VKService;
+import nimusc.vk.VKServicePublicAudio;
 import threadSleeper.ThreadSleeperTimeoutException;
-import usage.SecretData;
 
 import java.io.IOException;
 import java.util.List;
 
 public class Usage {
 
-    private static VKService vkService = new VKService(SecretData.login, SecretData.password);
+    private static VKServicePublicAudio vkServicePublicAudio = new VKServicePublicAudio(SecretData.login, SecretData.password);
     public static void run(){
         //test();
 
@@ -40,7 +39,7 @@ public class Usage {
             String audioId = id.substring(10,19);
 
             List<SongInfo> songInfos;
-            songInfos = vkService.getAudio(
+            songInfos = vkServicePublicAudio.getAudio(
                     AudioGetHUP.builder()
                             .ownerId(ownerId)
                             .albumId(audioId)
@@ -81,7 +80,7 @@ public class Usage {
             String audioId = id.substring(10,19);
 
             List<SongInfo> songInfos;
-            songInfos = vkService.getAudio(
+            songInfos = vkServicePublicAudio.getAudio(
                     AudioGetHUP.builder()
                             .albumId(audioId)
                             .ownerId(ownerId)
@@ -121,7 +120,7 @@ public class Usage {
     private static void testSearchSong(String query){
         try {
             List<SongInfo> songInfos;
-            songInfos = vkService.searchAudios(
+            songInfos = vkServicePublicAudio.searchAudios(
                     AudioSearchHUP.builder()
                             .query("Supra")
                             .build()
