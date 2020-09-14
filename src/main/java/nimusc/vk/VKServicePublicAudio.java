@@ -1,4 +1,4 @@
-package nimusc.vk.core;
+package nimusc.vk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,8 +12,10 @@ import nimusc.vk.HttpUrlParameters.AudioGetByIdHUP;
 import nimusc.vk.HttpUrlParameters.AudioGetHUP;
 import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
 import nimusc.vk.HttpUrlParameters.TokenReceiverHUP;
-import nimusc.vk.Props;
-import nimusc.vk.VkUtils;
+import nimusc.vk.core.VKRequest;
+import nimusc.vk.core.VKResponseValidator;
+import nimusc.vk.core.VKUrls;
+import nimusc.vk.core.VkSongInfosCollector;
 import threadSleeper.ThreadSleeper;
 import threadSleeper.ThreadSleeperTimeoutException;
 
@@ -21,21 +23,21 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class VKService {
+public class VKServicePublicAudio {
     private VKRequest oauthToken;
     private VKRequest audioSearch;
     private VKRequest audioAdd;
     private VKRequest audioGet;
     private VKRequest audioGetById;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private VKResponseValidator vkResponseValidator;
-    private VkSongInfosCollector vkSongInfosCollector;
-    private Account account;
+    private final VKResponseValidator vkResponseValidator;
+    private final VkSongInfosCollector vkSongInfosCollector;
+    private final Account account;
     private long requestTimeoutMillis = 10000L;
 
-    public VKService(String login, String password) {
+    public VKServicePublicAudio(String login, String password) {
         vkResponseValidator = new VKResponseValidator();
         vkSongInfosCollector = new VkSongInfosCollector();
         account = new Account();
