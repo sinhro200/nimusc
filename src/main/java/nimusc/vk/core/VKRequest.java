@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 public class VKRequest implements RequestSender {
     public final static VkClient vkClient = OfficialVkClient.get();
     public final static String v = ParameterValues.v;
+    public final static String ACCESS_TOKEN_KEY = "access_token";
     private RequestEntity requestEntity;
 
     private VKRequest( RequestEntity requestEntity) {
@@ -25,7 +26,17 @@ public class VKRequest implements RequestSender {
         return build(
                 url,
                 CommonMapParameters.createEmpty()
-                        .addParam("access_token",accessToken)
+                        .addParam(ACCESS_TOKEN_KEY,accessToken)
+                        .addParam("v",v),
+                CommonMapParameters.createEmpty()
+                        .addParam("User-Agent",vkClient.getUserAgent())
+        );
+    }
+
+    public static VKRequest buildDynamicAccTok(String url){
+        return build(
+                url,
+                CommonMapParameters.createEmpty()
                         .addParam("v",v),
                 CommonMapParameters.createEmpty()
                         .addParam("User-Agent",vkClient.getUserAgent())
