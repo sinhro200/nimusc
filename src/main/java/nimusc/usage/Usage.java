@@ -1,13 +1,15 @@
 package nimusc.usage;
 
 import nimusc.core.SongInfo;
+import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
 import nimusc.core.common.exception.NimuscExceptionType;
-import nimusc.core.interfaces.linkToSongConverter.LinkConvertingNE;
+import nimusc.core.exceptions.LinkConvertingNE;
 import nimusc.vk.HttpUrlParameters.AudioGetHUP;
 import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
+import nimusc.vk.VKAudioService;
+import nimusc.vk.VkAuthorizationService;
 import nimusc.vk.VkUtils;
-import nimusc.vk.VKServicePublicAudio;
 import threadSleeper.ThreadSleeperTimeoutException;
 
 import java.io.IOException;
@@ -15,7 +17,9 @@ import java.util.List;
 
 public class Usage {
 
-    private static VKServicePublicAudio vkServicePublicAudio = new VKServicePublicAudio(SecretData.login, SecretData.password);
+    private static VKAudioService vkAudioService = new VKAudioService();
+    private static VkAuthorizationService vkAuthorizationService = new VkAuthorizationService(SecretData.login,SecretData.password);
+
     public static void run(){
         //test();
 
@@ -26,6 +30,7 @@ public class Usage {
 
         String link = "https://vk.com/audio474499233_456472576";
         link = "https://vk.com/audio246181510_456239782";
+        link = "https://vk.com/audio123622163_456240364_b71f8ebf09dc187277";
 
         testConvertingLinkToSong_UsingGetById(link);
     }
@@ -38,8 +43,11 @@ public class Usage {
             String ownerId = id.substring(0,9);
             String audioId = id.substring(10,19);
 
+            vkAuthorizationService.updateAccountToken();
+
             List<SongInfo> songInfos;
-            songInfos = vkServicePublicAudio.getAudio(
+            songInfos = vkAudioService.getAudio(
+                    vkAuthorizationService.authFromCommonAccount(),
                     AudioGetHUP.builder()
                             .ownerId(ownerId)
                             .albumId(audioId)
@@ -48,14 +56,26 @@ public class Usage {
             System.out.println(songInfos.toString());
         } catch (NimuscException e) {
             e.printStackTrace();
-            NimuscExceptionType NEtype = e.getType();
-            if (NEtype instanceof LinkConvertingNE) {
-                switch ((LinkConvertingNE) NEtype) {
-                    case SONGS_NOT_FOUND:
+            NimuscExceptionType nimuscExcType = e.getType();
+            System.out.println("["+nimuscExcType.getMessage() + "] code: [" + nimuscExcType.getCode()+"]");
+            if (nimuscExcType instanceof CommonNE){
+                switch (((CommonNE) nimuscExcType)){
+                    case ERR_IN_RESPONSE:
 
                         break;
-                    case REQUEST_ERR:
+                    case WRONG_HTTP_URL_PARAMETERS:
 
+                        break;
+
+                    case ERR_WHILE_SENDING_REQUEST:
+
+                        break;
+                }
+            }
+            if (nimuscExcType instanceof LinkConvertingNE) {
+                switch ((LinkConvertingNE) nimuscExcType) {
+                    case SONGS_NOT_FOUND:
+                        System.out.println("Песни не найдены. Возможно это песня с закрытого профиля.");
                         break;
                     case EMPTY_LINK:
 
@@ -80,7 +100,8 @@ public class Usage {
             String audioId = id.substring(10,19);
 
             List<SongInfo> songInfos;
-            songInfos = vkServicePublicAudio.getAudio(
+            songInfos = vkAudioService.getAudio(
+                    vkAuthorizationService.authFromCommonAccount(),
                     AudioGetHUP.builder()
                             .albumId(audioId)
                             .ownerId(ownerId)
@@ -120,7 +141,8 @@ public class Usage {
     private static void testSearchSong(String query){
         try {
             List<SongInfo> songInfos;
-            songInfos = vkServicePublicAudio.searchAudios(
+            songInfos = vkAudioService.searchAudios(
+                    vkAuthorizationService.authFromCommonAccount(),
                     AudioSearchHUP.builder()
                             .query("Supra")
                             .build()

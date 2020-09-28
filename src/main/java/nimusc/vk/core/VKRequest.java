@@ -2,6 +2,7 @@ package nimusc.vk.core;
 
 import nimusc.core.ParameterValues;
 import nimusc.core.VkClient;
+import nimusc.core.authorization.Authorization;
 import nimusc.core.common.CommonMapParameters;
 import nimusc.core.common.OfficialVkClient;
 import nimusc.core.common.exception.NimuscException;
@@ -15,25 +16,14 @@ import java.util.function.Consumer;
 public class VKRequest implements RequestSender {
     public final static VkClient vkClient = OfficialVkClient.get();
     public final static String v = ParameterValues.v;
-    public final static String ACCESS_TOKEN_KEY = "access_token";
+
     private RequestEntity requestEntity;
 
     private VKRequest( RequestEntity requestEntity) {
         this.requestEntity = requestEntity;
     }
 
-    public static VKRequest buildDefault(String url, String accessToken){
-        return build(
-                url,
-                CommonMapParameters.createEmpty()
-                        .addParam(ACCESS_TOKEN_KEY,accessToken)
-                        .addParam("v",v),
-                CommonMapParameters.createEmpty()
-                        .addParam("User-Agent",vkClient.getUserAgent())
-        );
-    }
-
-    public static VKRequest buildDynamicAccTok(String url){
+    public static VKRequest buildDefault(String url){
         return build(
                 url,
                 CommonMapParameters.createEmpty()
@@ -54,7 +44,11 @@ public class VKRequest implements RequestSender {
     }
 
     @Override
-    public void send(HttpUrlParameters userParams, Consumer<String> onResponse, Consumer<NimuscException> onError) {
-        requestEntity.send(userParams,onResponse,onError);
+    public void send(HttpUrlParameters userHUP,
+                     Authorization authorization,
+                     Consumer<String> onResponse,
+                     Consumer<NimuscException> onError
+    ) {
+        requestEntity.send(userHUP,authorization,onResponse,onError);
     }
 }

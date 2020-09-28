@@ -1,5 +1,6 @@
 package nimusc.core.request;
 
+import nimusc.core.authorization.Authorization;
 import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class RequestEntity implements RequestSender{
     private RequestHeaderParameters commonRequestHeaderParams;
 
     @Override
-    public void send(HttpUrlParameters userParams, Consumer<String> onResponse, Consumer<NimuscException> onError){
+    public void send(HttpUrlParameters userParams, Authorization authorization, Consumer<String> onResponse, Consumer<NimuscException> onError){
         HttpUrl.Builder urlBuilder
                 = HttpUrl.parse(requestUrl).newBuilder();
         if (commonUrlParams !=null)
@@ -44,6 +45,9 @@ public class RequestEntity implements RequestSender{
                 return;
             }
 
+        if (authorization!=null)
+            authorization.applyToHttpBuilder(urlBuilder);
+
         urlBuilder
                 .build();
 
@@ -59,6 +63,10 @@ public class RequestEntity implements RequestSender{
                 return;
             }
         }
+
+        if (authorization!=null)
+            authorization.applyToRequestBuilder(requestBuilder);
+
 
         log.info("Send request : "+ urlBuilder.toString());
         Request request = requestBuilder.build();

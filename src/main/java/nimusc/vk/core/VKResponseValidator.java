@@ -3,61 +3,89 @@ package nimusc.vk.core;
 import com.fasterxml.jackson.databind.JsonNode;
 import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
-import nimusc.core.interfaces.linkToSongConverter.LinkConvertingNE;
-import nimusc.core.interfaces.tokenReceiver.TokenReceiverNE;
+import nimusc.core.exceptions.LinkConvertingNE;
+import nimusc.core.exceptions.TokenReceiverNE;
 
 public class VKResponseValidator {
-    public void validate(JsonNode jsonResponse,VKUrls requestUrl)throws NimuscException {
-        JsonNode response = jsonResponse.get("response");
-        if (response==null || response.isEmpty()) {
-            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Response is null or empty");
+    /*
+    [jsonResponse]:{
+        [responseJsonNode] response:{
+            "asd":"dsa",
+            ...
+        },
+        [errorJsonNode] error:{
+            ...
         }
+    }
+     */
+    private JsonNode responseJsonNode;
+    private JsonNode errorJsonNode;
+    private JsonNode jsonResponse;
+    public void validate(JsonNode jsonResponse,VKUrls requestUrl)throws NimuscException {
+        this.jsonResponse = jsonResponse;
+        responseJsonNode = jsonResponse.get("response");
+        errorJsonNode = jsonResponse.get("error");
 
         switch (requestUrl){
             case OAUTH_TOKEN:
-                validateOAuth(jsonResponse);
+                validateOAuth();
                 break;
             case AUDIO_GET:
-                validateAudioGet(jsonResponse);
+                validateAudioGet();
                 break;
             case AUDIO_GETBYID:
-                validateAudioGetById(jsonResponse);
+                validateAudioGetById();
                 break;
             case AUDIO_ADD:
-                validateAudioAdd(jsonResponse);
+                validateAudioAdd();
                 break;
             case AUDIO_SEARCH:
-                validateAudioSearch(jsonResponse);
+                validateAudioSearch();
                 break;
         }
     }
 
-    private void validateAudioSearch(JsonNode jsonResponse) throws NimuscException{
+    private void validateAudioSearch() throws NimuscException{
         //ToDO
+    }
+
+    private  void validateAudioAdd() throws NimuscException {
+        //ToDO
+        if (errorJsonNode != null && !errorJsonNode.isEmpty())
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,errorJsonNode.get("error_msg").asText());
+
+        if (responseJsonNode==null || responseJsonNode.isEmpty()) {
+            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Response data is null or empty");
+        }
+    }
+
+    private void validateAudioGetById() throws NimuscException {
+        //ToDO
+        if (errorJsonNode != null && !errorJsonNode.isEmpty())
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,errorJsonNode.get("error_msg").asText());
+
+        if (responseJsonNode==null || responseJsonNode.isEmpty()) {
+            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Response data is null or empty");
+        }
+    }
+
+    private void validateAudioGet() throws NimuscException  {
+        //ToDO
+        if (responseJsonNode.get("count").asInt() <= 0)
+            throw new NimuscException(LinkConvertingNE.SONGS_NOT_FOUND);
+        if (errorJsonNode != null && !errorJsonNode.isEmpty())
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,errorJsonNode.get("error_msg").asText());
+
+        if (responseJsonNode==null || responseJsonNode.isEmpty()) {
+            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Response data is null or empty");
+        }
 
     }
 
-    private void validateAudioAdd(JsonNode jsonResponse) throws NimuscException {
-        //ToDO
-        if (jsonResponse.get("error") != null && !jsonResponse.get("error").isEmpty())
-            throw new NimuscException(LinkConvertingNE.REQUEST_ERR,jsonResponse.get("error").get("error_msg").asText());
-    }
-
-    private void validateAudioGetById(JsonNode jsonResponse) throws NimuscException {
-        //ToDO
-        if (jsonResponse.get("error") != null && !jsonResponse.get("error").isEmpty())
-            throw new NimuscException(LinkConvertingNE.REQUEST_ERR,jsonResponse.get("error").get("error_msg").asText());
-
-    }
-
-    private void validateAudioGet(JsonNode jsonResponse) throws NimuscException  {
-        //ToDO
-        if (jsonResponse.get("error") != null && !jsonResponse.get("error").isEmpty())
-            throw new NimuscException(LinkConvertingNE.REQUEST_ERR,jsonResponse.get("error").get("error_msg").asText());
-    }
-
-    private void validateOAuth(JsonNode jsonResponse) throws NimuscException {
-        String error = jsonResponse.get("error").asText();
+    private void validateOAuth() throws NimuscException {
+        if (errorJsonNode == null)
+            return ;
+        String error = errorJsonNode.asText();
         String errorDescription = jsonResponse.get("error_description").asText();
         if (error.equals("need_validation")) {
             throw new NimuscException(TokenReceiverNE.TWOFA_REQ, jsonResponse.toString());

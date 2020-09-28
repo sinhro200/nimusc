@@ -1,7 +1,7 @@
 package nimusc.vk;
 
 import nimusc.core.common.exception.NimuscException;
-import nimusc.core.interfaces.linkToSongConverter.LinkConvertingNE;
+import nimusc.core.exceptions.LinkConvertingNE;
 
 import java.util.Random;
 import java.util.regex.Matcher;

@@ -3,7 +3,7 @@ package nimusc.vk.core;
 import com.fasterxml.jackson.databind.JsonNode;
 import nimusc.core.SongInfo;
 import nimusc.core.common.exception.NimuscException;
-import nimusc.core.interfaces.linkToSongConverter.LinkConvertingNE;
+import nimusc.core.exceptions.LinkConvertingNE;
 
 import java.util.LinkedList;
 import java.util.List;
