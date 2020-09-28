@@ -57,7 +57,7 @@ public class Usage {
         } catch (NimuscException e) {
             e.printStackTrace();
             NimuscExceptionType nimuscExcType = e.getType();
-            System.out.println("["+nimuscExcType.getMessage() + "] code: [" + nimuscExcType.getCode()+"]");
+            System.out.println("["+nimuscExcType.getMessage() + "]");
             if (nimuscExcType instanceof CommonNE){
                 switch (((CommonNE) nimuscExcType)){
                     case ERR_IN_RESPONSE:
