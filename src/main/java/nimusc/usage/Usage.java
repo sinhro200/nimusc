@@ -77,9 +77,6 @@ public class Usage {
                     case SONGS_NOT_FOUND:
                         System.out.println("Песни не найдены. Возможно это песня с закрытого профиля.");
                         break;
-                    case EMPTY_LINK:
-
-                        break;
                 }
             }
         } catch (InterruptedException e) {

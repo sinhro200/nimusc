@@ -4,7 +4,6 @@ import nimusc.core.common.exception.NimuscException;
 import nimusc.core.common.exception.NimuscExceptionType;
 
 public enum LinkConvertingNE implements NimuscExceptionType {
-    EMPTY_LINK("Link is empty."),
     BROKEN_LINK("Broken link"),
     SONGS_NOT_FOUND("Songs not found.")
     ;
