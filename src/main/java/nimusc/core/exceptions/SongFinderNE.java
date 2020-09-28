@@ -5,18 +5,15 @@ import nimusc.core.common.exception.NimuscExceptionType;
 
 
 public enum SongFinderNE implements NimuscExceptionType {
-    SONG_NOT_FOUND("Songs not found.",2),
+    SONG_NOT_FOUND("Songs not found."),
     ;
-
-    private final static int CODE_PREFIX = 3;
-    private final int code;
+    
     private final String message;
 
 
 
-    SongFinderNE(String message,int code) {
+    SongFinderNE(String message) {
         this.message = message;
-        this.code = code;
     }
 
     @Override
@@ -24,9 +21,5 @@ public enum SongFinderNE implements NimuscExceptionType {
         return message;
     }
 
-    @Override
-    public int getCode() {
-        return Integer.parseInt(String.valueOf(CODE_PREFIX) + code);
-    }
 }
 
