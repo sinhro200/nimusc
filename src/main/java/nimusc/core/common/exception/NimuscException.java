@@ -20,6 +20,6 @@ public class NimuscException extends Exception {
     }
 
     public String getMessage() {
-        return type.getMessage() + (this.extra==null?"":this.extra);
+        return type.getMessage() + (this.extra==null?"":". "+this.extra);
     }
 }

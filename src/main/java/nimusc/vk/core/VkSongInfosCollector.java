@@ -2,6 +2,7 @@ package nimusc.vk.core;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nimusc.core.SongInfo;
+import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
 import nimusc.core.exceptions.LinkConvertingNE;
 
@@ -13,6 +14,12 @@ import java.util.regex.Pattern;
 public class VkSongInfosCollector {
     public List<SongInfo> collect(JsonNode successResponse) throws NimuscException {
         JsonNode response = getResponse(successResponse);
+
+        JsonNode song0 = response.get(0);
+        if (song0!=null && !song0.isEmpty())
+            if (song0.get("id").asInt()==1 && song0.get("owner_id").asInt()==100)
+                throw new NimuscException(CommonNE.NOT_OFFICIAL_CLIENT, "VK пыркается на неофициальность приложения :(");
+
 
         List<SongInfo> songInfos = new LinkedList<>();
         for (int i = 0; i < response.size(); i++) {
@@ -41,7 +48,7 @@ public class VkSongInfosCollector {
         if (m.find()){
             return m.group(0);
         } else{
-            throw new NimuscException(LinkConvertingNE.BROKEN_LINK,"Url that matches pattern not found");
+            throw new NimuscException(LinkConvertingNE.BROKEN_RESPONSE_AUDIO_URL,"Url that matches pattern not found");
         }
     }
 

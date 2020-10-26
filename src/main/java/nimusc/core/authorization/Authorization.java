@@ -13,7 +13,4 @@ public interface Authorization extends HttpUrlParameters, RequestHeaderParameter
 
     @Override
     void applyToRequestBuilder(Request.Builder requestBuilder) ;
-
-
-
 }

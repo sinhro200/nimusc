@@ -6,6 +6,7 @@ public enum CommonNE implements NimuscExceptionType{
     ERR_IN_RESPONSE,
     ACCESS_TOKEN_BROKEN,
     ACCESS_TOKEN_EMPTYORNULL,
+    NOT_OFFICIAL_CLIENT,
     ;
     @Override
     public String getMessage() {

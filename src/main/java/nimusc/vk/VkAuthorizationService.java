@@ -125,7 +125,7 @@ public class VkAuthorizationService {
 
         @Override
         public void applyToRequestBuilder(Request.Builder requestBuilder) {
-
+            requestBuilder.header("Authorization","Bearer " + accessToken);
         }
     }
 }

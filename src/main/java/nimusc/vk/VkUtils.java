@@ -24,7 +24,7 @@ public class VkUtils {
         if (m.find())
             return m.group(0);
         throw new NimuscException(
-                LinkConvertingNE.BROKEN_LINK,
+                LinkConvertingNE.BROKEN_RESPONSE_AUDIO_URL,
                 "Can not get id from link. <"+link+">"
         );
     }

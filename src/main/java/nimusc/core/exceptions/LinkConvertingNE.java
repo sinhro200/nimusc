@@ -4,7 +4,7 @@ import nimusc.core.common.exception.NimuscException;
 import nimusc.core.common.exception.NimuscExceptionType;
 
 public enum LinkConvertingNE implements NimuscExceptionType {
-    BROKEN_LINK("Broken link"),
+    BROKEN_RESPONSE_AUDIO_URL("Broken response audio link"),
     SONGS_NOT_FOUND("Songs not found.")
     ;
     
