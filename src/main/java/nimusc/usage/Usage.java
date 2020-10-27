@@ -10,7 +10,6 @@ import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
 import nimusc.vk.VKAudioService;
 import nimusc.vk.VkAuthorizationService;
 import nimusc.vk.VkUtils;
-import threadSleeper.ThreadSleeperTimeoutException;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,12 +78,6 @@ public class Usage {
                         break;
                 }
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ThreadSleeperTimeoutException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -106,12 +99,6 @@ public class Usage {
             );
             System.out.println(songInfos.toString());
         } catch (NimuscException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ThreadSleeperTimeoutException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -145,13 +132,7 @@ public class Usage {
                             .build()
             );
             System.out.println(songInfos.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NimuscException e) {
-            e.printStackTrace();
-        } catch (ThreadSleeperTimeoutException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
