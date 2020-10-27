@@ -10,13 +10,17 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 @Builder
 @Log
 public class RequestEntity implements RequestSender{
 
-    private final OkHttpClient httpClient = new OkHttpClient();
+    private final OkHttpClient httpClient =
+            new OkHttpClient.Builder()
+                    .connectTimeout(3, TimeUnit.SECONDS)
+                    .build();
 
     @NonNull
     private String requestUrl;
