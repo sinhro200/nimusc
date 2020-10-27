@@ -1,14 +1,10 @@
 package nimusc.vk;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nimusc.core.Account;
 import nimusc.core.SongInfo;
 import nimusc.core.authorization.Authorization;
-import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
-import nimusc.core.tools.RequestResponseTools;
 import nimusc.vk.HttpUrlParameters.AudioGetByIdHUP;
 import nimusc.vk.HttpUrlParameters.AudioGetHUP;
 import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
@@ -66,7 +62,7 @@ public class VKAudioService {
     ) throws InterruptedException, NimuscException, ThreadSleeperTimeoutException, IOException {
         String response = ThreadSleeper.<String, NimuscException>getData(
                 (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioGet.send(
+                    audioGet.doRequestAsync(
                             audioGetHUP,
                             authorization,
                             responseAtomicReference::set,
@@ -86,7 +82,7 @@ public class VKAudioService {
 
         String response = ThreadSleeper.<String, NimuscException>getData(
                 (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioSearch.send(
+                    audioSearch.doRequestAsync(
                             audioSearchHUP,
                             authorization,
                             responseAtomicReference::set,
@@ -106,7 +102,7 @@ public class VKAudioService {
 
         String response = ThreadSleeper.<String, NimuscException>getData(
                 (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioGetById.send(
+                    audioGetById.doRequestAsync(
                             audioGetByIdHUP,
                             authorization,
                             responseAtomicReference::set,

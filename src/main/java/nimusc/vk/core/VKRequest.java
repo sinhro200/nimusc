@@ -44,11 +44,16 @@ public class VKRequest implements RequestSender {
     }
 
     @Override
-    public void send(HttpUrlParameters userHUP,
-                     Authorization authorization,
-                     Consumer<String> onResponse,
-                     Consumer<NimuscException> onError
+    public void doRequestAsync(HttpUrlParameters userHUP,
+                               Authorization authorization,
+                               Consumer<String> onResponse,
+                               Consumer<NimuscException> onError
     ) {
-        requestEntity.send(userHUP,authorization,onResponse,onError);
+        requestEntity.doRequestAsync(userHUP,authorization,onResponse,onError);
+    }
+
+    @Override
+    public String doRequestSync(HttpUrlParameters userParams, Authorization authorization) throws NimuscException {
+        return requestEntity.doRequestSync(userParams, authorization);
     }
 }

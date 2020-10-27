@@ -25,25 +25,15 @@ public class RequestEntity implements RequestSender{
 
     private RequestHeaderParameters commonRequestHeaderParams;
 
-    @Override
-    public void send(HttpUrlParameters userParams, Authorization authorization, Consumer<String> onResponse, Consumer<NimuscException> onError){
+    private Request baseRequest(HttpUrlParameters userParams, Authorization authorization) throws NimuscException{
         HttpUrl.Builder urlBuilder
                 = HttpUrl.parse(requestUrl).newBuilder();
         if (commonUrlParams !=null)
-            try{
-                commonUrlParams.applyToHttpBuilder(urlBuilder);
-            }catch (NimuscException ce){
-                onError.accept(ce);
-                return;
-            }
+            commonUrlParams.applyToHttpBuilder(urlBuilder);
+
 
         if (userParams!=null)
-            try{
-                userParams.applyToHttpBuilder(urlBuilder);
-            }catch (NimuscException ce){
-                onError.accept(ce);
-                return;
-            }
+            userParams.applyToHttpBuilder(urlBuilder);
 
         if (authorization!=null)
             authorization.applyToHttpBuilder(urlBuilder);
@@ -56,51 +46,81 @@ public class RequestEntity implements RequestSender{
         Request.Builder requestBuilder = new Request.Builder()
                 .url(urlBuilder.toString());
         if (commonRequestHeaderParams != null) {
-            try {
-                commonRequestHeaderParams.applyToRequestBuilder(requestBuilder);
-            } catch (NimuscException e) {
-                onError.accept(e);
-                return;
-            }
+            commonRequestHeaderParams.applyToRequestBuilder(requestBuilder);
         }
 
         if (authorization!=null)
             authorization.applyToRequestBuilder(requestBuilder);
 
+        return requestBuilder.build();
+    }
 
-        log.info("Send request : "+ urlBuilder.toString());
-        Request request = requestBuilder.build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(
+    private String getValidatedResponse(Response response) throws NimuscException{
+        if (response.isSuccessful()){
+            ResponseBody responseBody = response.body();
+            if (responseBody == null) {
+                log.info("Error while sending request. Response body is null");
+                throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null");
+            }
+
+            try {
+                String resp = responseBody.string();
+                log.info("Success while sending request. Response body : " + resp);
+
+                return resp;
+            } catch (IOException e) {
+                throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
+            }
+        }else{
+            log.info("Error while sending request. ");
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST);
+        }
+    }
+
+    @Override
+    public void doRequestAsync(HttpUrlParameters userParams, Authorization authorization, Consumer<String> onResponse, Consumer<NimuscException> onError){
+
+        Request request = null;
+        try {
+            request = baseRequest(userParams, authorization);
+        } catch (NimuscException e) {
+            onError.accept(e);
+            return;
+        }
+
+        log.info("Send request : "+ request.url().toString());
+
+        httpClient.newCall(request).enqueue(
                 new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         log.info("Error while sending request : " + e.getMessage() + ". "+e.getStackTrace());
                         onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST));
-                        return;
                     }
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        if (response.isSuccessful()){
-                            ResponseBody responseBody = response.body();
-                            if (responseBody == null) {
-                                log.info("Error while sending request. Response body is null");
-                                onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null"));
-                                return;
-                            }
-                            String resp = responseBody.string();
-                            log.info("Success while sending request. Response body : " + resp);
+                        try {
+                            String resp = getValidatedResponse(response);
                             onResponse.accept(resp);
-
-                        }else{
-                            log.info("Error while sending request. ");
-                            onError.accept(new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST));
-                            return;
+                        } catch (NimuscException e) {
+                            onError.accept(e);
                         }
-
                     }
                 }
         );
+    }
+
+    @Override
+    public String doRequestSync(HttpUrlParameters userParams, Authorization authorization) throws NimuscException {
+        Request request = baseRequest(
+                userParams,authorization
+        );
+        try {
+            Response response = httpClient.newCall(request).execute();
+            return getValidatedResponse(response);
+        } catch (IOException e) {
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
+        }
     }
 }

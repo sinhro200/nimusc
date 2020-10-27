@@ -48,7 +48,7 @@ public class VkAuthorizationService {
     public void updateAccountToken() throws InterruptedException, ThreadSleeperTimeoutException, NimuscException {
         String response = ThreadSleeper.<String, NimuscException>getData(
                 (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    oauthToken.send(
+                    oauthToken.doRequestAsync(
                             TokenReceiverHUP.builder()
                                     .login(account.getLogin())
                                     .password(account.getPassword())

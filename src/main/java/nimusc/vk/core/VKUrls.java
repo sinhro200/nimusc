@@ -6,8 +6,6 @@ public enum VKUrls {
     AUDIO_GETBYID("https://api.vk.com/method/audio.getById"),
     AUDIO_GET("https://api.vk.com/method/audio.get"),
     AUDIO_ADD("https://api.vk.com/method/audio.add")
-
-
     ;
     public String url;
 
