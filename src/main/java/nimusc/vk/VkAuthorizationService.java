@@ -45,19 +45,13 @@ public class VkAuthorizationService {
         oauthToken = createOAuthTokenRequest();
     }
 
-    public void updateAccountToken() throws InterruptedException, ThreadSleeperTimeoutException, NimuscException {
-        String response = ThreadSleeper.<String, NimuscException>getData(
-                (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    oauthToken.doRequestAsync(
+    public void updateAccountToken() throws NimuscException {
+        String response = oauthToken.doRequestSync(
                             TokenReceiverHUP.builder()
                                     .login(account.getLogin())
                                     .password(account.getPassword())
                                     .build(),
-                            null,
-                            responseAtomicReference::set,
-                            commonExceptionAtomicReference::set
-                    );
-                }, requestTimeoutMillis);
+                            null);
 
         JsonNode jsonResponse = stringResponseToJsonNode(objectMapper,response);
 
@@ -105,7 +99,7 @@ public class VkAuthorizationService {
     }
 
     public Authorization authFromCommonAccount()
-            throws InterruptedException, ThreadSleeperTimeoutException, NimuscException {
+            throws NimuscException {
         if (account.getAccessToken() == null)
             updateAccountToken();
         return new VKAuthorization(account.getAccessToken());

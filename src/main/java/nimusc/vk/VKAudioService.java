@@ -32,7 +32,6 @@ public class VKAudioService {
 
 
     private final VkSongInfosCollector vkSongInfosCollector;
-    private long requestTimeoutMillis = 10000L;
 
     public VKAudioService() {
         vkResponseValidator = new VKResponseValidator();
@@ -59,16 +58,9 @@ public class VKAudioService {
     public List<SongInfo> getAudio(
             Authorization authorization,
             AudioGetHUP audioGetHUP
-    ) throws InterruptedException, NimuscException, ThreadSleeperTimeoutException, IOException {
-        String response = ThreadSleeper.<String, NimuscException>getData(
-                (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioGet.doRequestAsync(
-                            audioGetHUP,
-                            authorization,
-                            responseAtomicReference::set,
-                            commonExceptionAtomicReference::set
-                    );
-                }, requestTimeoutMillis);
+    ) throws NimuscException{
+
+        String response = audioGet.doRequestSync(audioGetHUP, authorization);
 
         JsonNode jsonResponse = stringResponseToJsonNode(
                 objectMapper,response);
@@ -78,17 +70,10 @@ public class VKAudioService {
         return vkSongInfosCollector.collect(jsonResponse);
     }
 
-    public List<SongInfo> searchAudios(Authorization authorization,AudioSearchHUP audioSearchHUP) throws InterruptedException, NimuscException, ThreadSleeperTimeoutException, IOException {
+    public List<SongInfo> searchAudios(Authorization authorization,AudioSearchHUP audioSearchHUP)
+            throws NimuscException{
 
-        String response = ThreadSleeper.<String, NimuscException>getData(
-                (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioSearch.doRequestAsync(
-                            audioSearchHUP,
-                            authorization,
-                            responseAtomicReference::set,
-                            commonExceptionAtomicReference::set
-                    );
-                }, requestTimeoutMillis);
+        String response = audioSearch.doRequestSync(audioSearchHUP, authorization);
 
         JsonNode jsonResponse = stringResponseToJsonNode(
                 objectMapper,response);
@@ -98,17 +83,10 @@ public class VKAudioService {
         return vkSongInfosCollector.collect(jsonResponse);
     }
 
-    public List<SongInfo> getAudioById(Authorization authorization,AudioGetByIdHUP audioGetByIdHUP) throws InterruptedException, NimuscException, ThreadSleeperTimeoutException, IOException {
+    public List<SongInfo> getAudioById(Authorization authorization,AudioGetByIdHUP audioGetByIdHUP)
+            throws NimuscException{
 
-        String response = ThreadSleeper.<String, NimuscException>getData(
-                (responseAtomicReference, commonExceptionAtomicReference) -> {
-                    audioGetById.doRequestAsync(
-                            audioGetByIdHUP,
-                            authorization,
-                            responseAtomicReference::set,
-                            commonExceptionAtomicReference::set
-                    );
-                }, requestTimeoutMillis);
+        String response = audioGetById.doRequestSync(audioGetByIdHUP, authorization);
 
         JsonNode jsonResponse = stringResponseToJsonNode(
                 objectMapper,
@@ -130,12 +108,4 @@ public class VKAudioService {
 //            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Cant convert response to JsonNode");
 //        }
 //    }
-
-    public long getRequestTimeoutMillis() {
-        return requestTimeoutMillis;
-    }
-
-    public void setRequestTimeoutMillis(long requestTimeoutMillis) {
-        this.requestTimeoutMillis = requestTimeoutMillis;
-    }
 }

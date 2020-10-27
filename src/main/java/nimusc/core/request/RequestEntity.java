@@ -17,9 +17,11 @@ import java.util.function.Consumer;
 @Log
 public class RequestEntity implements RequestSender{
 
+    private int timeoutSeconds = 3;
+
     private final OkHttpClient httpClient =
             new OkHttpClient.Builder()
-                    .connectTimeout(3, TimeUnit.SECONDS)
+                    .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
                     .build();
 
     @NonNull
@@ -56,7 +58,9 @@ public class RequestEntity implements RequestSender{
         if (authorization!=null)
             authorization.applyToRequestBuilder(requestBuilder);
 
-        return requestBuilder.build();
+        Request r =  requestBuilder.build();
+        log.info("Request builded to url : " + r.url());
+        return r;
     }
 
     private String getValidatedResponse(Response response) throws NimuscException{
