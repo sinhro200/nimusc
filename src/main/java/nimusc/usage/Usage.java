@@ -1,14 +1,17 @@
 package nimusc.usage;
 
 import nimusc.core.SongInfo;
+import nimusc.core.authorization.Authorization;
 import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
 import nimusc.core.common.exception.NimuscExceptionType;
 import nimusc.core.exceptions.LinkConvertingNE;
 import nimusc.vk.HttpUrlParameters.AudioGetHUP;
 import nimusc.vk.HttpUrlParameters.AudioSearchHUP;
+import nimusc.vk.HttpUrlParameters.GetUserInfoHUP;
 import nimusc.vk.VKAudioService;
 import nimusc.vk.VkAuthorizationService;
+import nimusc.vk.VkUserDataService;
 import nimusc.vk.VkUtils;
 
 import java.io.IOException;
@@ -17,9 +20,9 @@ import java.util.List;
 public class Usage {
 
     private static VKAudioService vkAudioService = new VKAudioService();
-    private static VkAuthorizationService vkAuthorizationService = new VkAuthorizationService(SecretData.login,SecretData.password);
+    private static VkAuthorizationService vkAuthorizationService = new VkAuthorizationService(SecretData.login, SecretData.password);
 
-    public static void run(){
+    public static void run() {
         //test();
 
         //     dont work, if share = https://vk.com/audio246181510_456239785
@@ -37,12 +40,12 @@ public class Usage {
 
     private static void testConvertingLinkToSong_UsingGetById(String link) {
 //        String link = "https://vk.com/audio474499233_456472576";
-        try{
+        try {
             String id = VkUtils.convertLinkToId(link);
-            String ownerId = id.substring(0,9);
-            String audioId = id.substring(10,19);
+            String ownerId = id.substring(0, 9);
+            String audioId = id.substring(10, 19);
 
-            vkAuthorizationService.updateAccountToken();
+            vkAuthorizationService.authorize();
 
             List<SongInfo> songInfos;
             songInfos = vkAudioService.getAudio(
@@ -56,9 +59,9 @@ public class Usage {
         } catch (NimuscException e) {
             e.printStackTrace();
             NimuscExceptionType nimuscExcType = e.getType();
-            System.out.println("["+nimuscExcType.getMessage() + "]");
-            if (nimuscExcType instanceof CommonNE){
-                switch (((CommonNE) nimuscExcType)){
+            System.out.println("[" + nimuscExcType.getMessage() + "]");
+            if (nimuscExcType instanceof CommonNE) {
+                switch (((CommonNE) nimuscExcType)) {
                     case ERR_IN_RESPONSE:
 
                         break;
@@ -84,10 +87,10 @@ public class Usage {
 
     private static void testConvertingLinkToSong_UsingGet(String link) {
 //        String link = "https://vk.com/audio474499233_456472576";
-        try{
+        try {
             String id = VkUtils.convertLinkToId(link);
-            String ownerId = id.substring(0,9);
-            String audioId = id.substring(10,19);
+            String ownerId = id.substring(0, 9);
+            String audioId = id.substring(10, 19);
 
             List<SongInfo> songInfos;
             songInfos = vkAudioService.getAudio(
@@ -122,7 +125,7 @@ public class Usage {
         }
     }*/
 
-    private static void testSearchSong(String query){
+    private static void testSearchSong(String query) {
         try {
             List<SongInfo> songInfos;
             songInfos = vkAudioService.searchAudios(
@@ -132,6 +135,29 @@ public class Usage {
                             .build()
             );
             System.out.println(songInfos.toString());
+        } catch (NimuscException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void testGetUserData() {
+        try {
+            VkAuthorizationService.VkResponseUserAuthorizationData userData =
+                    new VkAuthorizationService(SecretData.login, SecretData.password)
+                            .authorize();
+
+            Authorization authorization =
+                    VkAuthorizationService.authUsingUserAccessToken(userData.access_token);
+
+            VkUserDataService vkUserDataService = new VkUserDataService();
+            VkUserDataService.UserData ud = vkUserDataService.getUserInfo(
+                    GetUserInfoHUP.builder()
+                            .user_id(userData.user_id)
+                            .build(),
+                    authorization
+            );
+            System.out.println(ud.first_name + " " + ud.last_name);
+            System.out.println("Test succeeded");
         } catch (NimuscException e) {
             e.printStackTrace();
         }

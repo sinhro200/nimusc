@@ -4,7 +4,8 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Usage.run();
+        //Usage.run();
+        Usage.testGetUserData();
     }
 
 

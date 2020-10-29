@@ -6,6 +6,7 @@ import nimusc.core.common.exception.NimuscException;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.java.Log;
+import nimusc.core.exceptions.AuthorizationNE;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,8 +81,12 @@ public class RequestEntity implements RequestSender{
                 throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
             }
         }else{
-            log.info("Error while sending request. ");
-            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST);
+            if (response.code() == 401) {
+                log.info("Error while sending request. 401 unauthorized");
+                throw new NimuscException(AuthorizationNE.UNAUTHORIZED);
+            }
+
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,"Error code :" + response.code());
         }
     }
 

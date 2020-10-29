@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import nimusc.core.common.exception.CommonNE;
 import nimusc.core.common.exception.NimuscException;
 import nimusc.core.exceptions.LinkConvertingNE;
-import nimusc.core.exceptions.TokenReceiverNE;
+import nimusc.core.exceptions.AuthorizationNE;
 
 public class VKResponseValidator {
     /*
@@ -42,6 +42,19 @@ public class VKResponseValidator {
             case AUDIO_SEARCH:
                 validateAudioSearch();
                 break;
+            case USERS_GET:
+                validateUsersGet();
+                break;
+        }
+    }
+
+    private void validateUsersGet() throws NimuscException {
+        //ToDO
+        if (errorJsonNode != null && !errorJsonNode.isEmpty())
+            throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,errorJsonNode.get("error_msg").asText());
+
+        if (responseJsonNode==null || responseJsonNode.isEmpty()) {
+            throw new NimuscException(CommonNE.ERR_IN_RESPONSE,"Response data is null or empty");
         }
     }
 
@@ -88,15 +101,15 @@ public class VKResponseValidator {
         String error = errorJsonNode.asText();
         String errorDescription = jsonResponse.get("error_description").asText();
         if (error.equals("need_validation")) {
-            throw new NimuscException(TokenReceiverNE.TWOFA_REQ, jsonResponse.toString());
+            throw new NimuscException(AuthorizationNE.TWOFA_REQ, jsonResponse.toString());
         }
         if (error.equals("invalid_client")) {
             throw new NimuscException(
-                    TokenReceiverNE.TOKEN_NOT_RECEIVED, errorDescription
+                    AuthorizationNE.TOKEN_NOT_RECEIVED, errorDescription
             );
         }
         if (jsonResponse.get("user_id").isEmpty()) {
-            throw new NimuscException(TokenReceiverNE.TOKEN_NOT_RECEIVED, jsonResponse.toString());
+            throw new NimuscException(AuthorizationNE.TOKEN_NOT_RECEIVED, jsonResponse.toString());
         }
     }
 }
