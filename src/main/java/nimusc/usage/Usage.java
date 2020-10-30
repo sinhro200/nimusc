@@ -14,7 +14,6 @@ import nimusc.vk.VkAuthorizationService;
 import nimusc.vk.VkUserDataService;
 import nimusc.vk.VkUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Usage {
@@ -45,7 +44,7 @@ public class Usage {
             String ownerId = id.substring(0, 9);
             String audioId = id.substring(10, 19);
 
-            vkAuthorizationService.authorize();
+            vkAuthorizationService.authorizeAndUpdateAccountToken();
 
             List<SongInfo> songInfos;
             songInfos = vkAudioService.getAudio(

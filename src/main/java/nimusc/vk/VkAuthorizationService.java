@@ -56,22 +56,26 @@ public class VkAuthorizationService {
         vkResponseValidator.validate(jsonResponse, VKUrls.OAUTH_TOKEN);
 
         try {
-            VkResponseUserAuthorizationData vkResponseUserAuthorizationData =
-                    objectMapper.treeToValue(
-                            jsonResponse, VkResponseUserAuthorizationData.class
-                    );
-            String accessToken = vkResponseUserAuthorizationData.access_token;
-            account.setAccessToken(accessToken);
-            try {
-                Props.getInstance().setCurToken(accessToken);
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            return vkResponseUserAuthorizationData;
+            return objectMapper.treeToValue(
+                    jsonResponse, VkResponseUserAuthorizationData.class
+            );
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            throw new NimuscException(CommonNE.ERR_IN_RESPONSE, "cant convert response to vkAuth PoJo");
+            throw new NimuscException(CommonNE.ERR_IN_RESPONSE, "cant convert response to vkAuth response PoJo");
         }
+    }
+
+    public VkResponseUserAuthorizationData authorizeAndUpdateAccountToken() throws NimuscException {
+
+        VkResponseUserAuthorizationData vkAuth = authorize();
+        String accessToken = vkAuth.access_token;
+        account.setAccessToken(accessToken);
+        try {
+            Props.getInstance().setCurToken(accessToken);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return vkAuth;
     }
 
     private VKRequest createOAuthTokenRequest() {
@@ -108,7 +112,7 @@ public class VkAuthorizationService {
     public Authorization authFromCommonAccount()
             throws NimuscException {
         if (account.getAccessToken() == null)
-            authorize();
+            authorizeAndUpdateAccountToken();
         return new VKAuthorization(account.getAccessToken());
     }
 

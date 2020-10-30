@@ -37,7 +37,7 @@ public class Props extends Properties{
         if(path==null) {
             throw new FileNotFoundException("File not found");
         }
-        File f = new File(path.toURI());
+        File f = new File(path.toExternalForm());
         FileOutputStream fos = new FileOutputStream(f);
 
         this.store(fos,null);
