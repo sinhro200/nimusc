@@ -74,10 +74,11 @@ public class VKResponseValidator {
 
     private void validateAudioGetById() throws NimuscException {
         //ToDO
-        if(
-                errorJsonNode.get("error_code").asText().equals("100") &&
-                        errorJsonNode.get("error_msg").asText().contains("audios is invalid"))
-            throw new NimuscException(LinkConvertingNE.SONGS_NOT_FOUND);
+        try {
+            if (errorJsonNode.get("error_code").asText().equals("100") &&
+                    errorJsonNode.get("error_msg").asText().contains("audios is invalid"))
+                throw new NimuscException(LinkConvertingNE.SONGS_NOT_FOUND);
+        }catch (NullPointerException ignore){}
 
         if (errorJsonNode != null && !errorJsonNode.isEmpty())
             throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,errorJsonNode.get("error_msg").asText());

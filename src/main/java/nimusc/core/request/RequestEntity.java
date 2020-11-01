@@ -67,6 +67,7 @@ public class RequestEntity implements RequestSender{
     private String getValidatedResponse(Response response) throws NimuscException{
         if (response.isSuccessful()){
             ResponseBody responseBody = response.body();
+            response.close();
             if (responseBody == null) {
                 log.info("Error while sending request. Response body is null");
                 throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null");
@@ -131,6 +132,7 @@ public class RequestEntity implements RequestSender{
         );
         try {
             Response response = httpClient.newCall(request).execute();
+
             return getValidatedResponse(response);
         } catch (IOException e) {
             throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
