@@ -11,6 +11,8 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -18,11 +20,20 @@ import java.util.function.Consumer;
 @Log
 public class RequestEntity implements RequestSender{
 
-    private int timeoutSeconds = 3;
+    private int timeoutSeconds = 10;
 
     private final OkHttpClient httpClient =
             new OkHttpClient.Builder()
                     .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                    .proxy(new Proxy(
+                            Proxy.Type.SOCKS,
+                            new InetSocketAddress(
+//                                    "68.183.112.133",
+//                                    8080
+                                    "95.81.214.11",
+                                    1080
+                            )
+                    ))
                     .build();
 
     @NonNull
