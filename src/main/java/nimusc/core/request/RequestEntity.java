@@ -66,20 +66,22 @@ public class RequestEntity implements RequestSender{
 
     private String getValidatedResponse(Response response) throws NimuscException{
         if (response.isSuccessful()){
-            ResponseBody responseBody = response.body();
-            response.close();
-            if (responseBody == null) {
-                log.info("Error while sending request. Response body is null");
-                throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null");
-            }
+            try(ResponseBody responseBody = response.body()){
+                //            response.close();
+                if (responseBody == null) {
+                    log.info("Error while sending request. Response body is null");
+                    throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST, "Response body is null");
+                }
 
-            try {
-                String resp = responseBody.string();
-                log.info("Success while sending request. Response body : " + resp);
+                try {
+                    String resp = responseBody.string();
+                    log.info("Success while sending request. Response body : " + resp);
 
-                return resp;
-            } catch (IOException e) {
-                throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
+                    return resp;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new NimuscException(CommonNE.ERR_WHILE_SENDING_REQUEST,e.getMessage());
+                }
             }
         }else{
             if (response.code() == 401) {
@@ -118,6 +120,7 @@ public class RequestEntity implements RequestSender{
                             String resp = getValidatedResponse(response);
                             onResponse.accept(resp);
                         } catch (NimuscException e) {
+                            e.printStackTrace();
                             onError.accept(e);
                         }
                     }
