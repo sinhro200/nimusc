@@ -29,9 +29,14 @@ public class Usage {
         //     work, if search = https://vk.com/audio474499233_456472576
         //     work = https://vk.com/audio123622163_456240364_b71f8ebf09dc187277
 
+        //ludovico einaudi
+        //its open
+        //content_id:[371745440_456292899]
+        //link for it https://vk.com/audio371745440_456292899
         String link = "https://vk.com/audio474499233_456472576";
         link = "https://vk.com/audio246181510_456239782";
         link = "https://vk.com/audio123622163_456240364_b71f8ebf09dc187277";
+        link = "https://vk.com/audio371745440_456292899";
 
         testConvertingLinkToSong_UsingGetById(link);
     }

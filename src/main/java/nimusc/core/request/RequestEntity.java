@@ -25,7 +25,7 @@ public class RequestEntity implements RequestSender{
     private final OkHttpClient httpClient =
             new OkHttpClient.Builder()
                     .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
-                    .proxy(new Proxy(
+                    /*.proxy(new Proxy(
                             Proxy.Type.SOCKS,
                             new InetSocketAddress(
 //                                    "68.183.112.133",
@@ -33,7 +33,7 @@ public class RequestEntity implements RequestSender{
                                     "95.81.214.11",
                                     1080
                             )
-                    ))
+                    ))*/
                     .build();
 
     @NonNull
